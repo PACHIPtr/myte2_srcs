@@ -5,7 +5,7 @@ SRV_DIR = /usr/game
 $(shell if [ ! -d $(OBJDIR) ]; then mkdir $(OBJDIR); fi)
 
 # Compile Flags
-CFLAGS = -w -Wall -m32 -std=c++2a -pipe -g3 -O3 -fstack-protector -static -Wno-invalid-source-encoding -Wno-unused-private-field -Wextra -Wno-unused-parameter -Wno-sign-compare -Wno-unused-variable -Wno-uninitialized
+CFLAGS = -w -Wall -m32 -std=c++2a -pipe -g3 -O3 -fstack-protector -static -Wno-invalid-source-encoding -Wno-unused-private-field -Wno-unused-parameter -Wno-sign-compare -Wno-unused-variable -Wno-uninitialized
 #Show warnings
 #CFLAGS += -Wall
 ############ Core Libs ###################

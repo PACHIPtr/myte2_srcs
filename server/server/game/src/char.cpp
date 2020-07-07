@@ -1162,15 +1162,19 @@ void CHARACTER::EncodeInsertPacket(LPENTITY entity)
 
 #ifdef ENABLE_WEAPON_RARITY_SYSTEM
 		addPacket.dwWeaponRareLv = 0;
-
-		if ((GetWear(WEAR_WEAPON) && IS_SET(GetWear(WEAR_WEAPON)->GetFlag(), ITEM_FLAG_RARE_ABILITY)) && features::IsFeatureEnabled(features::WEAPON_RARITY))
-			addPacket.dwWeaponRareLv = GetWear(WEAR_WEAPON)->GetRarePoints();;
+		if (IsPC())
+		{
+			if ((GetWear(WEAR_WEAPON) && IS_SET(GetWear(WEAR_WEAPON)->GetFlag(), ITEM_FLAG_RARE_ABILITY)) && features::IsFeatureEnabled(features::WEAPON_RARITY))
+				addPacket.dwWeaponRareLv = GetWear(WEAR_WEAPON)->GetRarePoints();;
+		}
 #endif
 
-		addPacket.sAlignment = m_iAlignment / 10;
+		if (IsPC())
+			addPacket.sAlignment = m_iAlignment / 10;
 
 #if defined(ENABLE_BATTLE_ZONE_SYSTEM)
-		addPacket.combat_zone_rank = GetCombatZoneRank();
+		if (IsPC())
+			addPacket.combat_zone_rank = GetCombatZoneRank();
 #endif
 
 #ifdef ENABLE_BUFFI_SYSTEM
@@ -1178,10 +1182,13 @@ void CHARACTER::EncodeInsertPacket(LPENTITY entity)
 #endif
 
 #ifdef ENABLE_EFFECT_STONE_SYSTEM
-		if (GetWear(WEAR_BODY))
-			addPacket.bStoneEffect = GetWear(WEAR_BODY)->GetAddedEffectStone();
-		if (GetWear(WEAR_WEAPON))
-			addPacket.bWeaponStoneEffect = GetWear(WEAR_WEAPON)->GetAddedEffectStoneWeapon();
+		if (IsPC())
+		{
+			if (GetWear(WEAR_BODY))
+				addPacket.bStoneEffect = GetWear(WEAR_BODY)->GetAddedEffectStone();
+			if (GetWear(WEAR_WEAPON))
+				addPacket.bWeaponStoneEffect = GetWear(WEAR_WEAPON)->GetAddedEffectStoneWeapon();
+		}
 #endif
 
 		d->Packet(&addPacket, sizeof(TPacketGCCharacterAdditionalInfo));

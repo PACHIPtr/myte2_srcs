@@ -300,9 +300,6 @@ ACMD(do_remove_polymorph);
 #ifdef ENABLE_SKILL_AFFECT_REMOVE
 ACMD(do_remove_skill_affect);
 #endif
-#ifdef ENABLE_SHOW_CHEST_DROP_SYSTEM
-ACMD(do_open_giftbox);
-#endif
 #ifdef ENABLE_FAST_CHEQUE_GOLD_TRANSFER
 ACMD(do_transfer_gold);
 ACMD(do_transfer_cheque);
@@ -668,9 +665,6 @@ struct command_info cmd_info[] =
 #endif
 #ifdef ENABLE_SKILL_AFFECT_REMOVE
 	{"remove_skill_affect", do_remove_skill_affect, 0, POS_DEAD, GM_PLAYER},
-#endif
-#ifdef ENABLE_SHOW_CHEST_DROP_SYSTEM
-	{"open_giftbox", do_open_giftbox, 0, POS_DEAD, GM_PLAYER},
 #endif
 #ifdef ENABLE_FAST_CHEQUE_GOLD_TRANSFER
 	{"transfer_gold", do_transfer_gold, 0, POS_DEAD, GM_PLAYER},

@@ -9328,288 +9328,197 @@ bool CHARACTER::PickupItem(DWORD dwVID)
 			{
 				if (item->IsStackable() && !IS_SET(item->GetAntiFlag(), ITEM_ANTIFLAG_STACK))
 				{
-					if (item->IsUpgradeItem())
+					BYTE bCount = item->GetCount();
+					for (int i = 0; i < INVENTORY_MAX_NUM; ++i)
 					{
-						BYTE bCount = item->GetCount();
-	
-						for (int i = 0; i < 225; ++i)
+						LPITEM item2 = GetInventoryItem(i);
+
+						if (!item2)
+							continue;
+
+						if (item2->GetVnum() == item->GetVnum())
 						{
-							LPITEM item2 = GetUpgradeItemsInventoryItem(i);
-	
-							if (!item2)
+							int j;
+
+							for (j = 0; j < ITEM_SOCKET_MAX_NUM; ++j)
+								if (item2->GetSocket(j) != item->GetSocket(j))
+									break;
+
+							if (j != ITEM_SOCKET_MAX_NUM)
 								continue;
-	
-							if (item2->GetVnum() == item->GetVnum())
+							BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
+							bCount -= bCount2;
+							if (bCount2 > 0)
+								item2->SetCount(item2->GetCount() + bCount2);
+
+							if (bCount == 0)
 							{
-								int j;
-	
-								for (j = 0; j < ITEM_SOCKET_MAX_NUM; ++j)
-									if (item2->GetSocket(j) != item->GetSocket(j))
-										break;
-	
-								if (j != ITEM_SOCKET_MAX_NUM)
-									continue;
-								
-								BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
-								bCount -= bCount2;
-	
-								item2->SetCount(item2->GetCount() + bCount2);
-	
-								if (bCount == 0)
-								{
-									ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
-									M2_DESTROY_ITEM(item);
-									if (item2->GetType() == ITEM_QUEST)
-										quest::CQuestManager::instance().PickupItem (GetPlayerID(), item2);
-									return true;
-								}
+								ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
+								M2_DESTROY_ITEM(item);
+								if (item2->GetType() == ITEM_QUEST)
+									quest::CQuestManager::instance().PickupItem(GetPlayerID(), item2);
+								return true;
 							}
 						}
-	
-						item->SetCount(bCount);
 					}
-					else if (item->IsSkillBook())
-					{
-						BYTE bCount = item->GetCount();
-	
-						for (int i = 0; i < 225; ++i)
-						{
-							LPITEM item2 = GetSkillBookInventoryItem(i);
-	
-							if (!item2)
-								continue;
-	
-							if (item2->GetVnum() == item->GetVnum())
-							{
-								int j;
-	
-								for (j = 0; j < ITEM_SOCKET_MAX_NUM; ++j)
-									if (item2->GetSocket(j) != item->GetSocket(j))
-										break;
-	
-								if (j != ITEM_SOCKET_MAX_NUM)
-									continue;
-	
-								BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
-								bCount -= bCount2;
-	
-								item2->SetCount(item2->GetCount() + bCount2);
-	
-								if (bCount == 0)
-								{
-									ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
-									M2_DESTROY_ITEM(item);
-									if (item2->GetType() == ITEM_QUEST)
-										quest::CQuestManager::instance().PickupItem (GetPlayerID(), item2);
-									return true;
-								}
-							}
-						}
-	
-						item->SetCount(bCount);
-					}
-					else if (item->IsStone())
-					{
-						BYTE bCount = item->GetCount();
-	
-						for (int i = 0; i < 225; ++i)
-						{
-							LPITEM item2 = GetStoneItemsInventoryItem(i);
-	
-							if (!item2)
-								continue;
-	
-							if (item2->GetVnum() == item->GetVnum())
-							{	
-								int j;
-	
-								for (j = 0; j < ITEM_SOCKET_MAX_NUM; ++j)
-									if (item2->GetSocket(j) != item->GetSocket(j))
-										break;
-	
-								if (j != ITEM_SOCKET_MAX_NUM)
-									continue;
-	
-								BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
-								bCount -= bCount2;
-	
-								item2->SetCount(item2->GetCount() + bCount2);
-	
-								if (bCount == 0)
-								{
-									ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
-									M2_DESTROY_ITEM(item);
-									if (item2->GetType() == ITEM_QUEST)
-										quest::CQuestManager::instance().PickupItem (GetPlayerID(), item2);
-									return true;
-								}
-							}
-						}
-	
-						item->SetCount(bCount);
-					}
-					else if (item->IsChest())
-					{
-						BYTE bCount = item->GetCount();
-	
-						for (int i = 0; i < 225; ++i)
-						{
-							LPITEM item2 = GetChestItemsInventoryItem(i);
-	
-							if (!item2)
-								continue;
-	
-							if (item2->GetVnum() == item->GetVnum())
-							{	
-								int j;
-	
-								for (j = 0; j < ITEM_SOCKET_MAX_NUM; ++j)
-									if (item2->GetSocket(j) != item->GetSocket(j))
-										break;
-	
-								if (j != ITEM_SOCKET_MAX_NUM)
-									continue;
-	
-								BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
-								bCount -= bCount2;
-	
-								item2->SetCount(item2->GetCount() + bCount2);
-	
-								if (bCount == 0)
-								{
-									ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
-									M2_DESTROY_ITEM(item);
-									if (item2->GetType() == ITEM_QUEST)
-										quest::CQuestManager::instance().PickupItem (GetPlayerID(), item2);
-									return true;
-								}
-							}
-						}
-	
-						item->SetCount(bCount);
-					}
-					else if (item->IsAttr())
-					{
-						BYTE bCount = item->GetCount();
-	
-						for (int i = 0; i < 225; ++i)
-						{
-							LPITEM item2 = GetAttrItemsInventoryItem(i);
-	
-							if (!item2)
-								continue;
-	
-							if (item2->GetVnum() == item->GetVnum())
-							{	
-								int j;
-	
-								for (j = 0; j < ITEM_SOCKET_MAX_NUM; ++j)
-									if (item2->GetSocket(j) != item->GetSocket(j))
-										break;
-	
-								if (j != ITEM_SOCKET_MAX_NUM)
-									continue;
-	
-								BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
-								bCount -= bCount2;
-	
-								item2->SetCount(item2->GetCount() + bCount2);
-	
-								if (bCount == 0)
-								{
-									ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
-									M2_DESTROY_ITEM(item);
-									if (item2->GetType() == ITEM_QUEST)
-										quest::CQuestManager::instance().PickupItem (GetPlayerID(), item2);
-									return true;
-								}
-							}
-						}
-	
-						item->SetCount(bCount);
-					}
-					else if (item->IsFlower())
-					{
-						BYTE bCount = item->GetCount();
-	
-						for (int i = 0; i < 225; ++i)
-						{
-							LPITEM item2 = GetFlowerItemsInventoryItem(i);
-	
-							if (!item2)
-								continue;
-	
-							if (item2->GetVnum() == item->GetVnum())
-							{	
-								int j;
-	
-								for (j = 0; j < ITEM_SOCKET_MAX_NUM; ++j)
-									if (item2->GetSocket(j) != item->GetSocket(j))
-										break;
-	
-								if (j != ITEM_SOCKET_MAX_NUM)
-									continue;
-	
-								BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
-								bCount -= bCount2;
-	
-								item2->SetCount(item2->GetCount() + bCount2);
-	
-								if (bCount == 0)
-								{
-									ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
-									M2_DESTROY_ITEM(item);
-									if (item2->GetType() == ITEM_QUEST)
-										quest::CQuestManager::instance().PickupItem (GetPlayerID(), item2);
-									return true;
-								}
-							}
-						}
-	
-						item->SetCount(bCount);
-					}
-					else
-					{
-						BYTE bCount = item->GetCount();
-	
-						for (int i = 0; i < INVENTORY_MAX_NUM; ++i)
-						{
-							LPITEM item2 = GetInventoryItem(i);
-	
-							if (!item2)
-								continue;
-	
-							if (item2->GetVnum() == item->GetVnum())
-							{
-								int j;
-	
-								for (j = 0; j < ITEM_SOCKET_MAX_NUM; ++j)
-									if (item2->GetSocket(j) != item->GetSocket(j))
-										break;
-	
-								if (j != ITEM_SOCKET_MAX_NUM)
-									continue;
-	
-								BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
-								bCount -= bCount2;
-	
-								item2->SetCount(item2->GetCount() + bCount2);
-	
-								if (bCount == 0)
-								{
-									ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
-									M2_DESTROY_ITEM(item);
-									if (item2->GetType() == ITEM_QUEST)
-										quest::CQuestManager::instance().PickupItem (GetPlayerID(), item2);
-									return true;
-								}
-							}
-						}
-	
-						item->SetCount(bCount);
-					}
+
+					item->SetCount(bCount);
 				}
-				
+				// @fixpch002 begin
+				if (item->IsUpgradeItem() && item->IsStackable() && !IS_SET(item->GetAntiFlag(), ITEM_ANTIFLAG_STACK))
+				{
+					BYTE bCount = item->GetCount();
+					for (int i = 0; i < UPGRADE_ITEMS_INVENTORY_MAX_NUM; ++i)
+					{
+						LPITEM item2 = GetUpgradeItemsInventoryItem(i);
+						if (!item2)
+							continue;
+						if (item2->GetVnum() == item->GetVnum())
+						{
+							BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
+							bCount -= bCount2;
+							if (bCount2 > 0)
+								item2->SetCount(item2->GetCount() + bCount2);
+							if (bCount == 0)
+							{
+								ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
+								M2_DESTROY_ITEM(item);
+								return true;
+							}
+						}
+					}
+					item->SetCount(bCount);
+				}
+				else if (item->IsSkillBook() && item->IsStackable() && !IS_SET(item->GetAntiFlag(), ITEM_ANTIFLAG_STACK))
+				{
+					BYTE bCount = item->GetCount();
+					for (int i = 0; i < SKILL_BOOK_INVENTORY_MAX_NUM; ++i)
+					{
+						LPITEM item2 = GetSkillBookInventoryItem(i);
+						if (!item2)
+							continue;
+						if (item2->GetVnum() == item->GetVnum())
+						{
+							int j;
+							for (j = 0; j < ITEM_SOCKET_MAX_NUM; ++j)
+								if (item2->GetSocket(j) != item->GetSocket(j))
+									break;
+							if (j != ITEM_SOCKET_MAX_NUM)
+								continue;
+							BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
+							bCount -= bCount2;
+							if (bCount2 > 0)
+								item2->SetCount(item2->GetCount() + bCount2);
+							if (bCount == 0)
+							{
+								ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
+								M2_DESTROY_ITEM(item);
+								return true;
+							}
+						}
+					}
+					item->SetCount(bCount);
+				}
+				else if (item->IsStone() && item->IsStackable() && !IS_SET(item->GetAntiFlag(), ITEM_ANTIFLAG_STACK))
+				{
+					BYTE bCount = item->GetCount();
+					for (int i = 0; i < STONE_ITEMS_INVENTORY_MAX_NUM; ++i)
+					{
+						LPITEM item2 = GetStoneItemsInventoryItem(i);
+						if (!item2)
+							continue;
+						if (item2->GetVnum() == item->GetVnum())
+						{
+							BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
+							bCount -= bCount2;
+							if (bCount2 > 0)
+								item2->SetCount(item2->GetCount() + bCount2);
+							if (bCount == 0)
+							{
+								ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
+								M2_DESTROY_ITEM(item);
+								return true;
+							}
+						}
+					}
+					item->SetCount(bCount);
+				}
+
+				else if (item->IsFlower() && item->IsStackable() && !IS_SET(item->GetAntiFlag(), ITEM_ANTIFLAG_STACK))
+				{
+					BYTE bCount = item->GetCount();
+					for (int i = 0; i < FLOWER_ITEMS_INVENTORY_MAX_NUM; ++i)
+					{
+						LPITEM item2 = GetFlowerItemsInventoryItem(i);
+						if (!item2)
+							continue;
+						if (item2->GetVnum() == item->GetVnum())
+						{
+							BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
+							bCount -= bCount2;
+							if (bCount2 > 0)
+								item2->SetCount(item2->GetCount() + bCount2);
+							if (bCount == 0)
+							{
+								ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
+								M2_DESTROY_ITEM(item);
+								return true;
+							}
+						}
+					}
+					item->SetCount(bCount);
+				}
+
+				else if (item->IsAttr() && item->IsStackable() && !IS_SET(item->GetAntiFlag(), ITEM_ANTIFLAG_STACK))
+				{
+					BYTE bCount = item->GetCount();
+					for (int i = 0; i < ATTR_ITEMS_INVENTORY_MAX_NUM; ++i)
+					{
+						LPITEM item2 = GetAttrItemsInventoryItem(i);
+						if (!item2)
+							continue;
+						if (item2->GetVnum() == item->GetVnum())
+						{
+							BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
+							bCount -= bCount2;
+							if (bCount2 > 0)
+								item2->SetCount(item2->GetCount() + bCount2);
+							if (bCount == 0)
+							{
+								ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
+								M2_DESTROY_ITEM(item);
+								return true;
+							}
+						}
+					}
+					item->SetCount(bCount);
+				}
+
+				else if (item->IsChest() && item->IsStackable() && !IS_SET(item->GetAntiFlag(), ITEM_ANTIFLAG_STACK))
+				{
+					BYTE bCount = item->GetCount();
+					for (int i = 0; i < CHEST_ITEMS_INVENTORY_MAX_NUM; ++i)
+					{
+						LPITEM item2 = GetChestItemsInventoryItem(i);
+						if (!item2)
+							continue;
+						if (item2->GetVnum() == item->GetVnum())
+						{
+							BYTE bCount2 = MIN(g_bItemCountLimit - item2->GetCount(), bCount);
+							bCount -= bCount2;
+							if (bCount2 > 0)
+								item2->SetCount(item2->GetCount() + bCount2);
+							if (bCount == 0)
+							{
+								ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
+								M2_DESTROY_ITEM(item);
+								return true;
+							}
+						}
+					}
+					item->SetCount(bCount);
+				}
+				// @fixpch002 end
 				
 				int iEmptyCell;
 				if (item->IsDragonSoul())
@@ -9707,7 +9616,7 @@ bool CHARACTER::PickupItem(DWORD dwVID)
 				char szHint[32+1];
 				snprintf(szHint, sizeof(szHint), "%s %u %u", item->GetName(), item->GetCount(), item->GetOriginalVnum());
 				LogManager::instance().ItemLog(this, item, "GET", szHint);
-				ChatPacket(CHAT_TYPE_INFO, LC_TEXT("??? ??: %s"), item->GetName());
+				ChatPacket(CHAT_TYPE_INFO, LC_TEXT("ESYA_TOPLANDI: %s"), item->GetName()); // @fixpch001
 				
 				//SetLastPickupTime(get_dword_time());
 

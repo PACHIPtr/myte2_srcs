@@ -6355,52 +6355,6 @@ ACMD(do_remove_skill_affect)
 }
 #endif
 
-#ifdef ENABLE_SHOW_CHEST_DROP_SYSTEM
-ACMD(do_open_giftbox)
-{
-	if (!features::IsFeatureEnabled(features::OPEN_GIFTBOX))
-	{
-		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("OPEN_CHEST_SYSTEM_DISABLED"));
-		return;		
-	}
-
-	char arg1[256], arg2[256];
-	two_arguments(argument, arg1, sizeof(arg1), arg2, sizeof(arg2));
-	if (!*arg1 || !*arg2)
-		return;
-	
-	int inven_index = 0;
-	int box_count = 0;
-	str_to_number(inven_index, arg1);
-	str_to_number(box_count, arg2);
-	
-	if (inven_index > 225 || inven_index < 0)
-		return;
-	
-	if (box_count < 0 || box_count > 10)
-		return;
-	
-	LPITEM item = ch->GetChestItemsInventoryItem(inven_index);
-	
-	if (!item)
-		return;
-	
-	DWORD dwBoxVnum = item->GetVnum();
-	std::vector <DWORD> dwVnums;
-	std::vector <DWORD> dwCounts;
-	std::vector <LPITEM> item_gets(0);
-	int count = 0;
-	for (int i = 0; i < box_count; i++)
-	{
-		if (ch->GiveItemFromSpecialItemGroup(dwBoxVnum, dwVnums, dwCounts, item_gets, count))
-		{
-			if (item)
-				item->SetCount(item->GetCount() - 1);
-		}
-	}
-}
-#endif
-
 #ifdef ENABLE_FAST_CHEQUE_GOLD_TRANSFER
 ACMD(do_transfer_gold)
 {

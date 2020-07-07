@@ -346,7 +346,8 @@ bool CItem::SetCount(DWORD count, bool bSkipUpdatePacket)
 		}
 		else
 		{
-			if (!IsDragonSoul())
+			// @fixpch003
+			if (!IsDragonSoul() && !IsSkillBook() && !IsUpgradeItem() && !IsStone() && !IsAttr() && !IsFlower() && !IsChest())
 			{
 				m_pOwner->SyncQuickslot(QUICKSLOT_TYPE_ITEM, m_wCell, 1000);
 			}
