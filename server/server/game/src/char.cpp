@@ -1323,7 +1323,8 @@ void CHARACTER::UpdatePacket()
 	pack.dwMountVnum = GetMountVnum();
 
 #ifdef ENABLE_QUIVER_SYSTEM
-	pack.dwArrow = GetWear(WEAR_ARROW) != NULL ? GetWear(WEAR_ARROW)->GetOriginalVnum() : 0;
+	if (IsPC())
+		pack.dwArrow = GetWear(WEAR_ARROW) != NULL ? GetWear(WEAR_ARROW)->GetOriginalVnum() : 0;
 #endif
 
 	////////////////////////////////////////
@@ -1374,10 +1375,13 @@ void CHARACTER::UpdatePacket()
 #endif
 
 #ifdef ENABLE_EFFECT_STONE_SYSTEM
-	if (GetWear(WEAR_BODY))
-		pack.bStoneEffect = GetWear(WEAR_BODY)->GetAddedEffectStone();
-	if (GetWear(WEAR_WEAPON))
-		pack.bWeaponStoneEffect = GetWear(WEAR_WEAPON)->GetAddedEffectStoneWeapon();
+	if (IsPC())
+	{
+		if (GetWear(WEAR_BODY))
+			pack.bStoneEffect = GetWear(WEAR_BODY)->GetAddedEffectStone();
+		if (GetWear(WEAR_WEAPON))
+			pack.bWeaponStoneEffect = GetWear(WEAR_WEAPON)->GetAddedEffectStoneWeapon();
+	}
 #endif
 
 	PacketAround(&pack, sizeof(pack));

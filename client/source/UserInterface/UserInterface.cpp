@@ -202,7 +202,6 @@ bool PackInitialize(const char * c_pszFolder)
 	CEterPackManager::Instance().RegisterPack("pack/update1", "d:/ymir work/");
 	CEterPackManager::Instance().RegisterPack("pack/update2", "d:/ymir work/");
 	CEterPackManager::Instance().RegisterPack("pack/update_model", "d:/ymir work/");
-	CEterPackManager::Instance().RegisterPack("pack/update_maps", "*");
 	CEterPackManager::Instance().RegisterPack("pack/update_model2", "d:/ymir work/");
 	CEterPackManager::Instance().RegisterRootPack((stFolder + std::string("root")).c_str());
 	return true;

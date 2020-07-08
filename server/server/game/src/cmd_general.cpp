@@ -5337,9 +5337,7 @@ ACMD(do_refine_evo_points)
 		if (!third_item || third_item->IsExchanging() || third_item->IsEquipped())
 			return;
 	}
-	
-	sys_err("REFINE RARITY FONKSIYON BASLIYOR");
-	
+		
 	ch->DoRefine_Rarity(item, second_item, third_item);
 }
 #endif
