@@ -9975,7 +9975,7 @@ void CHARACTER::ChangeLookWindow(bool bOpen, bool bRequest)
 
 	m_bChangeLook = bOpen;
 #ifdef ENABLE_MOUNT_CHANGELOOK_SYSTEM
-	m_bMountChangeLook = bOpen;
+	m_bMountChangeLook = bMount;
 #endif
 	ClearClWindowMaterials();
 }

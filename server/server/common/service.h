@@ -95,7 +95,7 @@
 #define ENABLE_SAFEBOX_MONEY_SYSTEM									// Depoda Won ve Yang Sistemi
 #define ENABLE_CHEQUE_COUPON_SYSTEM									// Won Çeki Sistemi
 //#define ENABLE_WORSHIP_SYSTEM										// Ibadet Sistemi
-#define ENABLE_CAPTCHA_SYSTEM										// Captcha Kontrol Sistemi
+//#define ENABLE_CAPTCHA_SYSTEM										// Captcha Kontrol Sistemi
 #define ENABLE_ABUSE_SYSTEM											// Hile Kontrol Sistemi
 #define ENABLE_ALIGNMENT_SYSTEM										// Yeni Derece Sistemi
 #define ENABLE_VALUE_PACK_SYSTEM									// Değerli Paket Sistemi

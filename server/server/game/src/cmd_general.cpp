@@ -2741,6 +2741,7 @@ ACMD(do_FeedCubePet) {
 
 	DWORD feedtype = 0;
 	str_to_number(feedtype, arg1);
+
 	if (ch->GetNewPetSystem()->IsActivePet())
 		ch->GetNewPetSystem()->ItemCubeFeed(feedtype);
 	else
@@ -6014,6 +6015,7 @@ ACMD(do_determine_pet)
 	{
 		ch->ChatPacket(CHAT_TYPE_COMMAND, "OnResultPetAttrDetermine %d", ch->GetNewPetSystem()->GetPetType());
 	}
+	ch->RemoveSpecifyItem(55032, 1); // @fixpch
 }
 
 ACMD(do_change_pet)

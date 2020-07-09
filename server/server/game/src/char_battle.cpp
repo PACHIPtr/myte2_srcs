@@ -255,8 +255,8 @@ bool CHARACTER::Attack(LPCHARACTER pkVictim, BYTE bType)
 #ifdef ENABLE_ABUSE_SYSTEM
 	if (IsPC())
 	{
-		if (IsSuspectWaitDmg())
-			return false;
+		//if (IsSuspectWaitDmg())
+		//	return false;
 
 		m_abuse->ReceiveAttackPacket();
 	}

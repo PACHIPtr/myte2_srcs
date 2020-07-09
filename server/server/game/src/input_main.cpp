@@ -3905,6 +3905,12 @@ void CInputMain::SafeboxMoney(LPCHARACTER ch, const char * data)
 				return;
 			}
 
+			if (p->llMoney + sb->GetGold() > GOLD_MAX) // @fixpch
+			{
+				ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("SAFEBOX_MONEY_MUCH"));
+				return;
+			}
+
 			TSafeboxMoney pack;
 			pack.dwAID = ch->GetAID();
 			pack.bType = 1;
@@ -3971,6 +3977,12 @@ void CInputMain::SafeboxCheque(LPCHARACTER ch, const char * data)
 			if (ch->GetCheque() < p->wCheque)
 			{
 				ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("SAFEBOX_SYSTEM_NOT_ENOUGH_CHEQUE"));
+				return;
+			}
+
+			if (p->wCheque + sb->GetCheque() > CHEQUE_MAX) // @fixpch
+			{
+				ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("SAFEBOX_CHEQUE_MUCH"));
 				return;
 			}
 			

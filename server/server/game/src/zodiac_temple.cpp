@@ -2154,6 +2154,10 @@ void CZodiac::ProcessZodyakItems(bool enable)
 
 struct FNextFloorButton
 {
+	LPZODIAC m_pkZodiac;
+	FNextFloorButton(LPZODIAC z) : m_pkZodiac(z)
+	{}
+
 	void operator() (LPENTITY ent)
 	{
 		if (ent->IsType(ENTITY_CHARACTER))
@@ -2165,11 +2169,29 @@ struct FNextFloorButton
 				return;
 			}
 
+			if (!m_pkZodiac)
+			{
+				sys_err("Cannot Zodiac");
+				return;
+			}
+
 			if (ch->IsPC())
 			{
 				if ((ch->GetParty() && ch->GetParty()->GetLeaderPID() == ch->GetPlayerID()) || !ch->GetParty())
 				{
 					ch->ChatPacket(CHAT_TYPE_COMMAND, "NextFloorButton");
+				}
+				else if (ch->GetParty() && ch->GetParty()->GetLeaderPID() != ch->GetPlayerID())
+				{
+					if (CHARACTER_MANAGER::instance().FindByPID(ch->GetParty()->GetLeaderPID()) == NULL)
+					{
+						if (m_pkZodiac->IsNextFloorStatus() == true)
+						{
+							m_pkZodiac->SetNextFloorStatus(false);
+							ch->ChatPacket(CHAT_TYPE_COMMAND, "NextFloorButton");
+							return;
+						}
+					}
 				}
 			}
 		}
@@ -2185,7 +2207,9 @@ void CZodiac::NextFloorButton()
 		return;
 	}
 
-	FNextFloorButton f;
+	SetNextFloorStatus(true);
+
+	FNextFloorButton f(this);
 	pkMap->for_each(f);
 }
 

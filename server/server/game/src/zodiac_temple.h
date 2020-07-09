@@ -2,6 +2,7 @@
 #define __INC_METIN_II_GAME_ZODIAC_H
 
 #include "dungeon.h"
+#include <boost/unordered_map.hpp>
 #include "sectree_manager.h"
 #include "../../common/service.h"
 
@@ -52,6 +53,9 @@ class CZodiac
 		BYTE	GetNextFloor() { return m_bNextFloor; }
 		bool	IsNextFloor() { return m_bNextFloorControl; }
 		DWORD	GetTime() { return m_dwGetGlobalTime; }
+
+		bool	IsNextFloorStatus() { return m_bNextFloorStatus; }
+		void	SetNextFloorStatus(bool status) { m_bNextFloorStatus = status; }
 
 		void	ControlMob();
 		int		CountMonster();
@@ -104,6 +108,7 @@ class CZodiac
 		BYTE		m_bFloor;
 		BYTE		m_bNextFloor;
 		bool		m_bNextFloorControl;
+		bool		m_bNextFloorStatus;
 		BYTE		m_bPosition;
 		DWORD		m_dwGetGlobalTime;
 		bool		m_bTimeDown;
